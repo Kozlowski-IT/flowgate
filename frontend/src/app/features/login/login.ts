@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -30,9 +31,14 @@ export class Login {
     const { email, password } = this.form.getRawValue();
     this.auth.login(email, password).subscribe({
       next: () => void this.router.navigateByUrl('/'),
-      error: () => {
+      error: (err: HttpErrorResponse) => {
         this.loading.set(false);
-        this.error.set('E-Mail oder Passwort ist falsch.');
+        // only a 401 means wrong credentials — anything else is a server problem
+        this.error.set(
+          err.status === 401
+            ? 'E-Mail oder Passwort ist falsch.'
+            : 'Server nicht erreichbar — bitte später erneut versuchen.',
+        );
       },
     });
   }
