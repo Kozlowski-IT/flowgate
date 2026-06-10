@@ -1,3 +1,5 @@
+// API is reached through the dev-server proxy (proxy.conf.json),
+// so the app works from any address (localhost, LAN IP, …) without CORS.
 export const environment = {
-  apiUrl: 'http://localhost:3001/api/v1',
+  apiUrl: '/api/v1',
 };
