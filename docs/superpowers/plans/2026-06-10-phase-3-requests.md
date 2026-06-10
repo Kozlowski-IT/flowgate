@@ -1,7 +1,7 @@
 # FlowGate Phase 3: Requests (CRUD + Wizard) Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
-> **STATUS: BESTÄTIGT (10.06.2026)** — Wizard-Felder ok; Entscheidung: diesmal OHNE Lern-Stelle (Pascal liest Wizard-Code im Anschluss gemeinsam durch); Durchbau am Stück.
+> **STATUS: ✅ ABGESCHLOSSEN (10.06.2026)** — alle Tasks umgesetzt. Unit 10/10, e2e 13/13, Chrome-Flow 9/9 Checks (Guard, Wizard-Validierung, Draft, Submit, Reviewer-Sicht). Abweichung vom Plan: DomainErrorFilter schreibt die Response direkt statt zu werfen (Werfen im Filter wird von Nest nicht erneut gefangen).
 
 **Goal:** Requester können Anträge anlegen (3-Schritt-Wizard, Reactive Forms), bearbeiten (nur eigene Drafts), einreichen (Draft → Submitted) und in einer Liste/Detailansicht sehen — rollenbasiert gefiltert, REST unter `/api/v1/requests`.
 
