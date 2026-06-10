@@ -16,6 +16,11 @@
     }
   </div>
 
+  <div class="view-toggle" role="group" aria-label="Ansicht wählen">
+    <button type="button" class="chip" [class.active]="view() === 'table'" (click)="setView('table')">Tabelle</button>
+    <button type="button" class="chip" [class.active]="view() === 'board'" (click)="setView('board')">Board</button>
+  </div>
+
   <div class="filters" role="group" aria-label="Nach Status filtern">
     <button
       type="button"
@@ -39,6 +44,27 @@
 
   @if (requestsService.loading()) {
     <p role="status">Lade …</p>
+  } @else if (view() === 'board') {
+    <div class="board">
+      @for (column of boardColumns(); track column.title) {
+        <section class="lane">
+          <h2>{{ column.title }} <span class="count">{{ column.requests.length }}</span></h2>
+          @for (request of column.requests; track request.id) {
+            <a class="card-item" [routerLink]="['/requests', request.id]">
+              <strong>{{ request.title }}</strong>
+              <span class="meta">{{ categoryLabels[request.payload.category] }}
+                @if (request.payload.amountEur; as amount) { · {{ amount }} € }
+              </span>
+              <span class="badge" [class]="'badge status-' + request.status">
+                {{ statusLabels[request.status] }}
+              </span>
+            </a>
+          } @empty {
+            <p class="lane-empty">—</p>
+          }
+        </section>
+      }
+    </div>
   } @else if (requestsService.requests().length === 0) {
     <div class="empty-state">
       <p class="empty-title">Kein Vorgang angelegt</p>

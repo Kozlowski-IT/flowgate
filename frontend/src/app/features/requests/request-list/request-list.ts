@@ -14,8 +14,22 @@ import {
   CATEGORY_LABELS,
   RequestStatus,
   STATUS_LABELS,
+  WorkflowRequest,
 } from '../../../core/requests/request.model';
 import { RequestsService } from '../../../core/requests/requests.service';
+
+interface BoardColumn {
+  title: string;
+  statuses: RequestStatus[];
+}
+
+/** the four board lanes — which statuses land in which column */
+const BOARD_COLUMNS: BoardColumn[] = [
+  { title: 'Entwurf', statuses: ['draft'] },
+  { title: 'Eingereicht', statuses: ['submitted', 'changes_requested'] },
+  { title: 'In Prüfung', statuses: ['in_review'] },
+  { title: 'Entschieden', statuses: ['approved', 'rejected'] },
+];
 
 @Component({
   selector: 'app-request-list',
@@ -46,6 +60,27 @@ export class RequestList implements OnInit {
     const all = this.requestsService.requests();
     return filter === null ? all : all.filter((r) => r.status === filter);
   });
+
+  protected readonly view = signal<'table' | 'board'>(
+    (localStorage.getItem('flowgate.view') as 'table' | 'board') ?? 'table',
+  );
+
+  // TODO(Pascal — Lern-Stelle): boardColumns — verteilt die gefilterten Anträge
+  // auf die 4 Spalten. Anleitung kommt von Claude als Unterrichtsstunde.
+  // Ziel: ein computed, das für JEDE Spalte aus BOARD_COLUMNS ein Objekt
+  // { title, requests } zurückgibt, wobei `requests` alle Anträge aus
+  // this.filtered() sind, deren status in column.statuses vorkommt.
+  protected readonly boardColumns = computed(() =>
+    BOARD_COLUMNS.map((column) => ({
+      title: column.title,
+      requests: [] as WorkflowRequest[], // STUB: Spalten bleiben leer — deine Aufgabe!
+    })),
+  );
+
+  protected setView(view: 'table' | 'board'): void {
+    this.view.set(view);
+    localStorage.setItem('flowgate.view', view);
+  }
 
   ngOnInit(): void {
     this.requestsService.reload();
