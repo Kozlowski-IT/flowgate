@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import {
   CATEGORY_LABELS,
+  RequestStatus,
   STATUS_LABELS,
 } from '../../../core/requests/request.model';
 import { RequestsService } from '../../../core/requests/requests.service';
@@ -21,9 +22,21 @@ export class RequestList implements OnInit {
 
   protected readonly categoryLabels = CATEGORY_LABELS;
   protected readonly statusLabels = STATUS_LABELS;
+  protected readonly statuses = Object.keys(STATUS_LABELS) as RequestStatus[];
+
+  protected readonly statusFilter = signal<RequestStatus | null>(null);
+  protected readonly filtered = computed(() => {
+    const filter = this.statusFilter();
+    const all = this.requestsService.requests();
+    return filter === null ? all : all.filter((r) => r.status === filter);
+  });
 
   ngOnInit(): void {
     this.requestsService.reload();
+  }
+
+  protected setFilter(status: RequestStatus | null): void {
+    this.statusFilter.set(status);
   }
 
   /** short, file-number style reference derived from the uuid (e.g. FG-3F2A) */

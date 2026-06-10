@@ -16,6 +16,27 @@
     }
   </div>
 
+  <div class="filters" role="group" aria-label="Nach Status filtern">
+    <button
+      type="button"
+      class="chip"
+      [class.active]="statusFilter() === null"
+      (click)="setFilter(null)"
+    >
+      Alle
+    </button>
+    @for (status of statuses; track status) {
+      <button
+        type="button"
+        class="chip"
+        [class.active]="statusFilter() === status"
+        (click)="setFilter(status)"
+      >
+        {{ statusLabels[status] }}
+      </button>
+    }
+  </div>
+
   @if (requestsService.loading()) {
     <p role="status">Lade …</p>
   } @else if (requestsService.requests().length === 0) {
@@ -40,7 +61,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (request of requestsService.requests(); track request.id) {
+          @for (request of filtered(); track request.id) {
             <tr>
               <td class="mono">{{ shortId(request.id) }}</td>
               <td>
@@ -55,6 +76,10 @@
                 </span>
               </td>
               <td class="mono muted">{{ request.updatedAt | date: 'dd.MM.yyyy HH:mm' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="muted no-match">Kein Antrag mit diesem Status.</td>
             </tr>
           }
         </tbody>

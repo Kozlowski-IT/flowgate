@@ -46,3 +46,31 @@ export const STATUS_LABELS: Record<RequestStatus, string> = {
   rejected: 'Abgelehnt',
   changes_requested: 'Änderungen erbeten',
 };
+
+export type ReviewDecision = 'approved' | 'rejected' | 'changes_requested';
+
+export type AuditAction =
+  | 'created'
+  | 'submitted'
+  | 'review_started'
+  | ReviewDecision;
+
+export interface RequestEvent {
+  id: string;
+  requestId: string;
+  actorId: string;
+  action: AuditAction;
+  fromStatus: RequestStatus | null;
+  toStatus: RequestStatus;
+  comment: string | null;
+  createdAt: string;
+}
+
+export const ACTION_LABELS: Record<AuditAction, string> = {
+  created: 'Antrag angelegt',
+  submitted: 'Eingereicht',
+  review_started: 'Prüfung gestartet',
+  approved: 'Genehmigt',
+  rejected: 'Abgelehnt',
+  changes_requested: 'Änderungen erbeten',
+};

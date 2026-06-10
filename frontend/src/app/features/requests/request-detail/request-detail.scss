@@ -62,3 +62,101 @@ dl {
   gap: 0.75rem;
   margin-top: 1.5rem;
 }
+
+.decision-panel {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 17px;
+  }
+
+  textarea {
+    width: 100%;
+  }
+}
+
+.decision-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+
+  .approve {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .reject {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+}
+
+.timeline {
+  margin-top: 2.5rem;
+
+  h2 {
+    font-size: 17px;
+  }
+
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 2px solid var(--line-strong);
+  }
+
+  li {
+    position: relative;
+    padding: 0 0 1.25rem 1.5rem;
+
+    .dot {
+      position: absolute;
+      left: -7px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      background: var(--paper);
+
+      &.status-draft { color: var(--st-draft-fg); }
+      &.status-submitted { color: var(--st-submitted-fg); }
+      &.status-in_review { color: var(--st-review-fg); }
+      &.status-approved { color: var(--st-approved-fg); background: var(--st-approved-fg); }
+      &.status-rejected { color: var(--st-rejected-fg); background: var(--st-rejected-fg); }
+      &.status-changes_requested { color: var(--st-changes-fg); }
+    }
+  }
+
+  .event-head {
+    margin: 0;
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+
+    time {
+      color: var(--ink-muted);
+    }
+  }
+
+  blockquote {
+    margin: 0.4rem 0 0;
+    padding: 0.5rem 0.85rem;
+    border-left: 3px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--ink-muted);
+    font-size: 14px;
+  }
+}
+
+.label-text {
+  display: inline;
+}

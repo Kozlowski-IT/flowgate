@@ -2,7 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { RequestInput, WorkflowRequest } from './request.model';
+import {
+  RequestEvent,
+  RequestInput,
+  ReviewDecision,
+  WorkflowRequest,
+} from './request.model';
 
 @Injectable({ providedIn: 'root' })
 export class RequestsService {
@@ -37,5 +42,24 @@ export class RequestsService {
 
   submit(id: string): Observable<WorkflowRequest> {
     return this.http.post<WorkflowRequest>(`${this.base}/${id}/submit`, {});
+  }
+
+  events(id: string): Observable<RequestEvent[]> {
+    return this.http.get<RequestEvent[]>(`${this.base}/${id}/events`);
+  }
+
+  startReview(id: string): Observable<WorkflowRequest> {
+    return this.http.post<WorkflowRequest>(`${this.base}/${id}/start-review`, {});
+  }
+
+  decide(
+    id: string,
+    decision: ReviewDecision,
+    comment?: string,
+  ): Observable<WorkflowRequest> {
+    return this.http.post<WorkflowRequest>(`${this.base}/${id}/decision`, {
+      decision,
+      ...(comment ? { comment } : {}),
+    });
   }
 }

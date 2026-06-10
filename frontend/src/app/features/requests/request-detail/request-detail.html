@@ -20,23 +20,84 @@
       <dd>{{ r.payload.description }}</dd>
       @if (r.payload.amountEur; as amount) {
         <dt>Betrag</dt>
-        <dd>{{ amount }} €</dd>
+        <dd class="mono">{{ amount }} €</dd>
       }
       @if (r.payload.neededBy; as date) {
         <dt>Benötigt bis</dt>
-        <dd>{{ date | date: 'dd.MM.yyyy' }}</dd>
+        <dd class="mono">{{ date | date: 'dd.MM.yyyy' }}</dd>
       }
       <dt>Erstellt</dt>
-      <dd>{{ r.createdAt | date: 'dd.MM.yyyy HH:mm' }}</dd>
+      <dd class="mono">{{ r.createdAt | date: 'dd.MM.yyyy HH:mm' }}</dd>
       <dt>Aktualisiert</dt>
-      <dd>{{ r.updatedAt | date: 'dd.MM.yyyy HH:mm' }}</dd>
+      <dd class="mono">{{ r.updatedAt | date: 'dd.MM.yyyy HH:mm' }}</dd>
     </dl>
 
     @if (canEdit()) {
       <div class="actions">
         <a class="button" [routerLink]="['/requests', r.id, 'edit']">Bearbeiten</a>
-        <button type="button" class="primary" (click)="submit()">Einreichen</button>
+        <button type="button" class="primary" (click)="submit()" [disabled]="busy()">
+          {{ r.status === 'changes_requested' ? 'Erneut einreichen' : 'Einreichen' }}
+        </button>
       </div>
+    }
+
+    @if (canStartReview()) {
+      <div class="actions">
+        <button type="button" class="primary" (click)="startReview()" [disabled]="busy()">
+          Prüfung starten
+        </button>
+      </div>
+    }
+
+    @if (canDecide()) {
+      <section class="decision-panel">
+        <h2>Entscheidung</h2>
+        <label>
+          <span class="label-text">Kommentar (Pflicht bei Ablehnung/Änderungswunsch)</span>
+          <textarea
+            rows="3"
+            [formControl]="commentCtrl"
+            [attr.aria-invalid]="commentError() ? true : null"
+            [attr.aria-describedby]="commentError() ? 'comment-error' : null"
+          ></textarea>
+          @if (commentError(); as msg) {
+            <small id="comment-error" class="error">{{ msg }}</small>
+          }
+        </label>
+        <div class="decision-buttons">
+          <button type="button" class="approve" (click)="decide('approved')" [disabled]="busy()">
+            Genehmigen
+          </button>
+          <button type="button" (click)="decide('changes_requested')" [disabled]="busy()">
+            Änderungen erbitten
+          </button>
+          <button type="button" class="reject" (click)="decide('rejected')" [disabled]="busy()">
+            Ablehnen
+          </button>
+        </div>
+      </section>
+    }
+
+    @if (events().length > 0) {
+      <section class="timeline">
+        <h2>Verlauf</h2>
+        <ol>
+          @for (event of events(); track event.id) {
+            <li>
+              <span class="dot" [class]="'dot status-' + event.toStatus" aria-hidden="true"></span>
+              <div>
+                <p class="event-head">
+                  <strong>{{ actionLabels[event.action] }}</strong>
+                  <time class="mono">{{ event.createdAt | date: 'dd.MM.yyyy HH:mm' }}</time>
+                </p>
+                @if (event.comment) {
+                  <blockquote>{{ event.comment }}</blockquote>
+                }
+              </div>
+            </li>
+          }
+        </ol>
+      </section>
     }
   } @else {
     <p role="status">Lade …</p>
