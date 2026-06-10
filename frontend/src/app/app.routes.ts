@@ -9,7 +9,36 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/requests/request-list/request-list').then(
+            (m) => m.RequestList,
+          ),
+      },
+      {
+        path: 'requests/new',
+        loadComponent: () =>
+          import('./features/requests/request-wizard/request-wizard').then(
+            (m) => m.RequestWizard,
+          ),
+      },
+      {
+        path: 'requests/:id/edit',
+        loadComponent: () =>
+          import('./features/requests/request-wizard/request-wizard').then(
+            (m) => m.RequestWizard,
+          ),
+      },
+      {
+        path: 'requests/:id',
+        loadComponent: () =>
+          import('./features/requests/request-detail/request-detail').then(
+            (m) => m.RequestDetail,
+          ),
+      },
+    ],
   },
   { path: '**', redirectTo: '' },
 ];

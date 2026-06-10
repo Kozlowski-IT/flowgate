@@ -1,0 +1,88 @@
+<main class="wizard">
+  <h1>{{ isEdit() ? 'Antrag bearbeiten' : 'Neuer Antrag' }}</h1>
+
+  <ol class="steps">
+    <li [class.active]="currentStep() === 1" [class.done]="currentStep() > 1">Grunddaten</li>
+    <li [class.active]="currentStep() === 2" [class.done]="currentStep() > 2">Details</li>
+    <li [class.active]="currentStep() === 3">Prüfen &amp; Absenden</li>
+  </ol>
+
+  <form [formGroup]="form">
+    @switch (currentStep()) {
+      @case (1) {
+        <fieldset formGroupName="step1">
+          <label>
+            Titel *
+            <input type="text" formControlName="title" placeholder="z.B. Neue Tastatur" />
+            @if (form.controls.step1.controls.title.touched && form.controls.step1.controls.title.invalid) {
+              <small class="error">Bitte einen Titel mit mindestens 3 Zeichen angeben.</small>
+            }
+          </label>
+          <label>
+            Kategorie *
+            <select formControlName="category">
+              @for (category of categories; track category) {
+                <option [value]="category">{{ categoryLabels[category] }}</option>
+              }
+            </select>
+          </label>
+        </fieldset>
+      }
+      @case (2) {
+        <fieldset formGroupName="step2">
+          <label>
+            Beschreibung *
+            <textarea rows="5" formControlName="description" placeholder="Was wird beantragt und warum? (mind. 10 Zeichen)"></textarea>
+            @if (form.controls.step2.controls.description.touched && form.controls.step2.controls.description.invalid) {
+              <small class="error">Bitte mindestens 10 Zeichen Beschreibung.</small>
+            }
+          </label>
+          <label>
+            Betrag in € (optional)
+            <input type="number" min="0" formControlName="amountEur" />
+          </label>
+          <label>
+            Benötigt bis (optional)
+            <input type="date" formControlName="neededBy" />
+          </label>
+        </fieldset>
+      }
+      @case (3) {
+        <dl class="summary">
+          <dt>Titel</dt>
+          <dd>{{ form.getRawValue().step1.title }}</dd>
+          <dt>Kategorie</dt>
+          <dd>{{ categoryLabels[form.getRawValue().step1.category] }}</dd>
+          <dt>Beschreibung</dt>
+          <dd>{{ form.getRawValue().step2.description }}</dd>
+          @if (form.getRawValue().step2.amountEur; as amount) {
+            <dt>Betrag</dt>
+            <dd>{{ amount }} €</dd>
+          }
+          @if (form.getRawValue().step2.neededBy; as date) {
+            <dt>Benötigt bis</dt>
+            <dd>{{ date }}</dd>
+          }
+        </dl>
+      }
+    }
+  </form>
+
+  @if (error(); as msg) {
+    <p class="error" role="alert">{{ msg }}</p>
+  }
+
+  <div class="nav">
+    @if (currentStep() > 1) {
+      <button type="button" (click)="prevStep()" [disabled]="saving()">Zurück</button>
+    }
+    <span class="spacer"></span>
+    <button type="button" class="ghost" (click)="cancel()" [disabled]="saving()">Abbrechen</button>
+    @if (currentStep() < 3) {
+      <button type="button" class="primary" (click)="nextStep()">Weiter</button>
+    } @else {
+      <button type="button" (click)="saveDraft()" [disabled]="saving()">Als Entwurf speichern</button>
+      <button type="button" class="primary" (click)="submitRequest()" [disabled]="saving()">Einreichen</button>
+    }
+  </div>
+</main>

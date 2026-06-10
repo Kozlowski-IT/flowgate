@@ -1,0 +1,42 @@
+<main class="detail">
+  <a routerLink="/">‹ Zurück zur Liste</a>
+
+  @if (error(); as msg) {
+    <p class="error" role="alert">{{ msg }}</p>
+  } @else if (request(); as r) {
+    <header>
+      <h1>{{ r.title }}</h1>
+      <span class="badge" [class]="'badge status-' + r.status">
+        {{ statusLabels[r.status] }}
+      </span>
+    </header>
+
+    <dl>
+      <dt>Kategorie</dt>
+      <dd>{{ categoryLabels[r.payload.category] }}</dd>
+      <dt>Beschreibung</dt>
+      <dd>{{ r.payload.description }}</dd>
+      @if (r.payload.amountEur; as amount) {
+        <dt>Betrag</dt>
+        <dd>{{ amount }} €</dd>
+      }
+      @if (r.payload.neededBy; as date) {
+        <dt>Benötigt bis</dt>
+        <dd>{{ date | date: 'dd.MM.yyyy' }}</dd>
+      }
+      <dt>Erstellt</dt>
+      <dd>{{ r.createdAt | date: 'dd.MM.yyyy HH:mm' }}</dd>
+      <dt>Aktualisiert</dt>
+      <dd>{{ r.updatedAt | date: 'dd.MM.yyyy HH:mm' }}</dd>
+    </dl>
+
+    @if (canEdit()) {
+      <div class="actions">
+        <a class="button" [routerLink]="['/requests', r.id, 'edit']">Bearbeiten</a>
+        <button type="button" class="primary" (click)="submit()">Einreichen</button>
+      </div>
+    }
+  } @else {
+    <p>Lade …</p>
+  }
+</main>

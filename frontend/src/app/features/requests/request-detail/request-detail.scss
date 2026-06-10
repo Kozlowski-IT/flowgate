@@ -1,0 +1,89 @@
+.detail {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+
+  > a {
+    color: #1a73e8;
+    text-decoration: none;
+  }
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+
+  h1 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 0.5rem 1rem;
+
+  dt {
+    color: #777;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.badge {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: #eee;
+
+  &.status-draft {
+    background: #e0e0e0;
+  }
+  &.status-submitted {
+    background: #d2e3fc;
+  }
+  &.status-in_review {
+    background: #feefc3;
+  }
+  &.status-approved {
+    background: #ceead6;
+  }
+  &.status-rejected {
+    background: #fad2cf;
+  }
+  &.status-changes_requested {
+    background: #fde2c8;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+
+  .button,
+  button {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+
+    &.primary {
+      background: #1a73e8;
+      border-color: #1a73e8;
+      color: #fff;
+    }
+  }
+}
+
+.error {
+  color: #c5221f;
+}
