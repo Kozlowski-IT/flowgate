@@ -1,7 +1,7 @@
 # FlowGate Phase 5: WebSocket-Live-Updates + Board Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
-> **STATUS: BESTÄTIGT (10.06.2026)** — 4 Spalten; Lern-Stelle Board-Gruppierung im „Lehrer-Modus" (Konzept-Lektion → geführtes Schreiben).
+> **STATUS: ✅ ABGESCHLOSSEN (11.06.2026)** — Zwei-Browser-Live-Test grün auf DEV **und** PROD (Toast + Karte wechselt Spalte ohne Reload). Gateway-Unit-Tests 4/4. Lern-Stelle: Lektion gehalten, Umsetzung auf Pascals Wunsch übernommen (Zeitdruck Schule) — Wissen gesichert im `docs/erklaer-spickzettel.md`.
 
 **Goal:** Statusänderungen erscheinen **live in allen offenen Browsern** (ohne Reload) — sichtbar gemacht durch eine **Board-Ansicht** (Status-Spalten) zusätzlich zur Tabelle, plus dezente Toast-Benachrichtigung.
 
