@@ -14,7 +14,6 @@ import {
   CATEGORY_LABELS,
   RequestStatus,
   STATUS_LABELS,
-  WorkflowRequest,
 } from '../../../core/requests/request.model';
 import { RequestsService } from '../../../core/requests/requests.service';
 
@@ -65,15 +64,13 @@ export class RequestList implements OnInit {
     (localStorage.getItem('flowgate.view') as 'table' | 'board') ?? 'table',
   );
 
-  // TODO(Pascal — Lern-Stelle): boardColumns — verteilt die gefilterten Anträge
-  // auf die 4 Spalten. Anleitung kommt von Claude als Unterrichtsstunde.
-  // Ziel: ein computed, das für JEDE Spalte aus BOARD_COLUMNS ein Objekt
-  // { title, requests } zurückgibt, wobei `requests` alle Anträge aus
-  // this.filtered() sind, deren status in column.statuses vorkommt.
+  /** distributes the (already filtered) requests into the four board lanes */
   protected readonly boardColumns = computed(() =>
     BOARD_COLUMNS.map((column) => ({
       title: column.title,
-      requests: [] as WorkflowRequest[], // STUB: Spalten bleiben leer — deine Aufgabe!
+      requests: this.filtered().filter((request) =>
+        column.statuses.includes(request.status),
+      ),
     })),
   );
 
