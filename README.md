@@ -43,10 +43,19 @@ Seeded by `npm run seed` — password for all: `Demo1234!` (override via `SEED_P
 
 The seed refuses to run with `NODE_ENV=production` unless `ALLOW_PROD_SEED=true` is set.
 
+## Screenshots
+
+| | |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Requests table](docs/screenshots/request-table.png) |
+| ![Live kanban board with toast](docs/screenshots/live-board.png) | ![Detail with audit timeline](docs/screenshots/detail-timeline.png) |
+
+![Architecture](docs/architecture.svg)
+
 ## Architecture
 
 - **Backend:** NestJS with bounded contexts (`auth`, `users`, `requests`, `events`) and DDD layering per module — `domain/` is framework-free (entities, value objects, repository interfaces), `infrastructure/` holds the TypeORM implementations, `application/` the use cases. Repository pattern wired via injection tokens.
 - **Auth:** JWT (1h), global guards — `JwtAuthGuard` (authentication, 401) and `RolesGuard` (authorization, 403), opt-out via `@Public()`.
 - **Frontend:** Angular standalone components, signals-based `AuthService`, functional HTTP interceptor and route guards, lazy-loaded routes.
 
-See `SPEC.md` for the full specification and `docs/` for plans and (later) the case study.
+See `SPEC.md` for the full specification, [`docs/case-study-flowgate.md`](docs/case-study-flowgate.md) for the case study, and [pascal-kozlowski.de](https://pascal-kozlowski.de) for more projects.
