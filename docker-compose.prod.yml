@@ -39,7 +39,9 @@ services:
     container_name: flowgate-prod-frontend
     restart: unless-stopped
     ports:
-      - '8081:80'
+      # default: loopback only — a host nginx terminates TLS in front of it.
+      # override via FRONTEND_BIND (e.g. 0.0.0.0:8081 for LAN testing).
+      - '${FRONTEND_BIND:-127.0.0.1:8081}:80'
     depends_on:
       - backend
 
