@@ -1,7 +1,7 @@
 # Case Study: FlowGate — Antrags- & Freigabe-Workflow (Full-Stack)
 
 **Selbst gebautes Referenzprojekt** · Angular 22 · NestJS 11 · PostgreSQL 18 · WebSocket · Docker
-**Live:** https://flowgate.pascal-kozlowski.de · **Code:** https://github.com/flokflok1/flowgate
+**Live:** https://flowgate.kozlowski-it.de · **Code:** https://github.com/flokflok1/flowgate
 **Rolle:** Konzeption, Architektur, Umsetzung, Betrieb — solo
 
 ---

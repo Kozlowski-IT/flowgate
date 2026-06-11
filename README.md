@@ -6,7 +6,7 @@ A full-stack **multi-step approval / request workflow** application — built as
 
 **What it does:** requests move through a server-enforced state machine (Draft → Submitted → In Review → Approved/Rejected) with role-based access (requester / reviewer / admin), a live status board updated over WebSocket, and an append-only audit trail.
 
-> **Live demo: [flowgate.pascal-kozlowski.de](https://flowgate.pascal-kozlowski.de)** — log in with the demo accounts below.
+> **Live demo: [flowgate.kozlowski-it.de](https://flowgate.kozlowski-it.de)** — log in with the demo accounts below.
 > Self-built reference/demo project — generic demo data, no real client data.
 
 ## Getting started (local dev)
@@ -58,4 +58,4 @@ The seed refuses to run with `NODE_ENV=production` unless `ALLOW_PROD_SEED=true`
 - **Auth:** JWT (1h), global guards — `JwtAuthGuard` (authentication, 401) and `RolesGuard` (authorization, 403), opt-out via `@Public()`.
 - **Frontend:** Angular standalone components, signals-based `AuthService`, functional HTTP interceptor and route guards, lazy-loaded routes.
 
-See `SPEC.md` for the full specification, [`docs/case-study-flowgate.md`](docs/case-study-flowgate.md) for the case study, and [pascal-kozlowski.de](https://pascal-kozlowski.de) for more projects.
+See `SPEC.md` for the full specification, [`docs/case-study-flowgate.md`](docs/case-study-flowgate.md) for the case study, and [kozlowski-it.de](https://kozlowski-it.de) for more projects.
