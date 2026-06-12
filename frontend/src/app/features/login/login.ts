@@ -22,6 +22,19 @@ export class Login {
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
+  // one-click demo logins shown on the page (password is public for the demo)
+  readonly demoPassword = 'Demo1234!';
+  readonly demoAccounts = [
+    { email: 'requester@flowgate.demo', role: 'Als Antragsteller', does: 'Anträge stellen & einreichen' },
+    { email: 'reviewer@flowgate.demo', role: 'Als Prüfer', does: 'prüfen, genehmigen, ablehnen' },
+  ];
+
+  /** fill the form with a demo account and log in straight away */
+  useDemo(email: string): void {
+    this.form.setValue({ email, password: this.demoPassword });
+    this.submit();
+  }
+
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched(); // surface field errors instead of blocking silently

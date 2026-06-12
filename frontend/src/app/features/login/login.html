@@ -50,12 +50,21 @@
         {{ loading() ? 'Anmelden …' : 'Anmelden' }}
       </button>
 
-      <div class="demo-hint">
-        <strong>Demo-Zugänge</strong> (Passwort jeweils <code>Demo1234!</code>)
-        <ul>
-          <li><code>requester&#64;flowgate.demo</code> — stellt Anträge</li>
-          <li><code>reviewer&#64;flowgate.demo</code> — prüft &amp; entscheidet</li>
-        </ul>
+      <div class="demo-access">
+        <p class="demo-title">Zum Ausprobieren — ein Klick genügt:</p>
+        <div class="demo-buttons">
+          @for (account of demoAccounts; track account.email) {
+            <button type="button" class="demo-btn" (click)="useDemo(account.email)" [disabled]="loading()">
+              <strong>{{ account.role }}</strong>
+              <span>{{ account.does }}</span>
+            </button>
+          }
+        </div>
+        <p class="demo-creds">
+          Zugangsdaten:
+          <code>requester&#64;flowgate.demo</code> · <code>reviewer&#64;flowgate.demo</code><br />
+          Passwort: <code>{{ demoPassword }}</code>
+        </p>
       </div>
     </form>
   </main>
