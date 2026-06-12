@@ -80,3 +80,15 @@
 ## Wenn nur EINE Frage kommt: „Was war die interessanteste Herausforderung?"
 
 > „Die Status-Maschine sauber durchzuziehen — vom Domain-Modell über erzwungene Übergänge bis zur Live-Aktualisierung im Browser. Und zu lernen, dass Sicherheit in Schichten kommt: Frontend-Validierung für die UX, Backend-Validierung als Wahrheit, Guards für Zugriff, und ehrliche Fehlermeldungen, damit man 401 von einem Serverausfall unterscheiden kann."
+
+---
+
+## 8. Quellwerk — das zweite Demo-Projekt (Python/RAG)
+
+**Was:** Open-Source-Tool für semantische Dokumentensuche: Frage in Alltagssprache rein („Wie viele Urlaubstage habe ich?"), relevante Passagen mit Quellenangabe und Relevanz-Score raus. Optional setzt ein LLM eine generierte Antwort obendrauf (RAG) — in der Demo aus Kostengründen abgeschaltet, per Umgebungsvariable aktivierbar.
+
+**So erklärst du es:** *„RAG heißt Retrieval-Augmented Generation: Erst FINDET das System die passenden Textstellen (das macht ein lokales Embedding-Modell, ohne Cloud), dann darf die KI nur aus diesen Stellen antworten und muss sie zitieren — Beleg statt Halluzination. Ich habe die Suche und die KI bewusst getrennt: Die Suche läuft kostenlos lokal, die KI ist ein austauschbarer Port mit Tagesbudget."*
+
+**Wo:** github.com/Kozlowski-IT/quellwerk · live: quellwerk.kozlowski-it.de — gleiche DDD-Schichtung wie FlowGate (drei Bounded Contexts: ingestion/search/answer, Domain framework-frei), nur in Python statt TypeScript.
+
+**Detail, das Eindruck macht:** *„Embeddings übersetzen Sätze in Zahlenvektoren, bei denen ähnliche Bedeutung ähnliche Richtung heißt — deshalb findet die Suche ‚Urlaubsanspruch', obwohl ich nach ‚freien Tagen' gefragt habe. Das Modell läuft auf der CPU meines Servers, die Vektorsuche ist ein simples Matrixprodukt — für zehntausende Absätze braucht es keine Vektor-Datenbank."*
